@@ -49,3 +49,6 @@ tbody tr td:first-of-type button {
 footer p:first-of-type {
   font-weight: 600 !important;
 }
+.fa-heart {
+  color: red !important;
+}

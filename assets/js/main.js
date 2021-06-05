@@ -13,7 +13,7 @@ $(function () {
     $("head").append(`<link rel="icon" href="assets/images/bacteria.png">`);
 
     //ajax call to show numbers for the last day available 
-    $.get(`http://localhost/Brainster_Projects/Project02_CovidTracker/apiroot/previousday.api.php`, function (data) {
+    $.get(`apiroot/previousday.api.php`, function (data) {
         data.forEach(country => {
             totalConfirmedArr.push(parseInt(country.confirmed_new));
             totalDeathsArr.push(parseInt(country.deaths_new));
@@ -113,7 +113,7 @@ $(function () {
         $(this).prop("disabled", true);
         $('.btn[data-type="table-filter-btn"]').not(this).prop("disabled", false);
 
-        $.get(`http://localhost/Brainster_Projects/Project02_CovidTracker/apiroot/${filterTime}.api.php`, function (data) {
+        $.get(`apiroot/${filterTime}.api.php`, function (data) {
             data.forEach(country => {
                 $("#mainTable > tbody").append(`
                     <tr>
@@ -154,7 +154,7 @@ $(function () {
 
         $('.btn[data-time="total"]').prop("disabled", false);
         $('.btn[data-type="total-filter-btn"]').not(this).prop("disabled", false);
-        $.get(`http://localhost/Brainster_Projects/Project02_CovidTracker/apiroot/${filterTime}.api.php`, function (data) {
+        $.get(`apiroot/${filterTime}.api.php`, function (data) {
             data.forEach(country => {
                 totalConfirmedArr.push(parseInt(country.confirmed_new));
                 totalRecoveredArr.push(parseInt(country.recovered_new));
@@ -171,7 +171,7 @@ $(function () {
             })
 
         //chart for total numbers
-        $.get(`http://localhost/Brainster_Projects/Project02_CovidTracker/apiroot/totalchart.api.php`, function (data) {
+        $.get(`apiroot/totalchart.api.php`, function (data) {
             data.forEach(date => {
                 chartLabelsArr.push(date.date);
                 chartDataConfirmedArr.push(parseInt(date.total_confirmed))
@@ -299,7 +299,7 @@ $(function () {
         $("#btn-total-previous-month").prop("disabled", false);
         $("#btn-total-previous-quarter").prop("disabled", false);
 
-        $.get(`http://localhost/Brainster_Projects/Project02_CovidTracker/apiroot/previousday.api.php`, function (data) {
+        $.get(`apiroot/previousday.api.php`, function (data) {
 
             data.forEach(country => {
                 $("#mainTable > tbody").append(`
@@ -323,7 +323,7 @@ $(function () {
     })
 
     // charts for the last available day numbers
-    $.get(`http://localhost/Brainster_Projects/Project02_CovidTracker/apiroot/totalchart.api.php`, function (data) {
+    $.get(`apiroot/totalchart.api.php`, function (data) {
 
         data.forEach(date => {
             chartLabelsArr.push(date.date);
@@ -346,7 +346,7 @@ $(function () {
         chartDataRecoveredArr = [];
         myChart.destroy();
 
-        $.get(`http://localhost/Brainster_Projects/Project02_CovidTracker/apiroot/totalchart.api.php`, function (data) {
+        $.get(`apiroot/totalchart.api.php`, function (data) {
 
             data.forEach(date => {
                 chartLabelsArr.push(date.date);
@@ -366,7 +366,7 @@ $(function () {
     let adminPassword = "admin123";
     let enteredPassword;
     $("#redirect-admin-panel").on("click", function () {
-        enteredPassword = window.prompt("Enter password for admin panel (hint: 'main.js'-line 368)");
+        enteredPassword = window.prompt("Enter password for admin panel");
         console.log(enteredPassword)
         if (enteredPassword === adminPassword) {
             window.location.href = "admin-panel.php";
