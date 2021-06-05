@@ -1,5 +1,7 @@
 <?php
 require_once "../../autoload.php";
+error_reporting(0);
+set_time_limit(0);
 
 $countriesData = file_get_contents("https://api.covid19api.com/countries");
 $countriesData = json_decode($countriesData, true);

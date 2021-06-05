@@ -26,7 +26,7 @@
     <div class="container-fluid m-0 p-0">
         <div class="d-flex justify-content-between align-items-center">
             <p class="display-4">Covid Tracker Admin Panel</p>
-            <a href="index.html" class="btn btn-primary p-2 mr-3 h-25">Back to main</a>
+            <a href="javascript:history.back()" class="btn btn-primary p-2 mr-3 h-25">Back to main</a>
         </div>
         <hr class="bg-dark mb-3">
         <form action="database/databaseInsert/cases.insert.php">

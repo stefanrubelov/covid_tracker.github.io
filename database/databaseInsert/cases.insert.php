@@ -1,5 +1,6 @@
 <?php
 require_once "../../autoload.php";
+error_reporting(0);
 set_time_limit(0);
 
 $lastDateInDB = selectQuery($conn, "SELECT (MAX(date)) as lastDateInDB FROM cases LIMIT 1");
@@ -10,8 +11,8 @@ $sql = "SELECT slug FROM countries";
 $stmt = $conn->query($sql);
 
 if ($lastDateInDB == $currentDate || $lastDateInDB == $currentDateMinusOneDay) {
-    header("Location: ../../index.html");
     sleep(3);
+    header("Location: ../../index.html");
     die();
 } else {
     foreach ($conn->query($sql) as $country) {

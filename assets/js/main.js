@@ -6,13 +6,13 @@ $(function () {
     let chartDataConfirmedArr = [];
     let chartDataDeathsArr = [];
     let chartDataRecoveredArr = [];
-    var filterTime;
+    let filterTime;
 
     $("#countries-chart").hide();
     $("#btn-total-previous-day").prop("disabled", true);
-    $("head").append(`<link rel="icon" href="assets/images/bacteria.png">`)
+    $("head").append(`<link rel="icon" href="assets/images/bacteria.png">`);
 
-    //call to show numbers for the last day available 
+    //ajax call to show numbers for the last day available 
     $.get(`http://localhost/Brainster_Projects/Project02_CovidTracker/apiroot/previousday.api.php`, function (data) {
         data.forEach(country => {
             totalConfirmedArr.push(parseInt(country.confirmed_new));
@@ -60,7 +60,7 @@ $(function () {
             $("#total-deaths").text(arraySum(totalDeathsArr));
         })
 
-        //set DataTables to the table
+        //set DataTables to the table for countries
         setTimeout(() => {
             var table = $("#mainTable").DataTable({
                 // scrollY: "600px",
@@ -72,11 +72,9 @@ $(function () {
             })
 
             $('input[type="search"]').attr("placeholder", "Type here to search the table");
-            $('input[type="search"]').css({
-                backgroundColor: "#fff"
-            })
+            $('input[type="search"]').css("backgroundColor", "#fff");
 
-            //create filter buttons on the table
+            //create and attach filter buttons on the table
             $("#mainTable_wrapper").append(`
                 <div id="table-filter-buttons">
                     <button type="button" onClick="event.preventDefault()" class="btn btn-primary mr-3 px-2 py-1" data-type="table-filter-btn" data-time="previousday" id="btn-table-previous-day" disabled>Last Day</button>
@@ -103,8 +101,8 @@ $(function () {
     //table filter buttons (last day, last month, last quarter(3months))
     $(document).on("click", '.btn[data-type="table-filter-btn"]', function (e) {
         e.preventDefault();
+        $('input[type="search"]').val("")
         $("#mainTable > tbody").html("");
-
         filterTime = $(this).data("time");
         let buttonText = $(this).text();
 
@@ -363,6 +361,19 @@ $(function () {
                 alert("An error occured, please try again later");
             })
     })
+
+    //"password" barrier for admin panel
+    let adminPassword = "admin123";
+    let enteredPassword;
+    $("#redirect-admin-panel").on("click", function () {
+        enteredPassword = window.prompt("Enter password for admin panel (hint: 'main.js'-line 368)");
+        console.log(enteredPassword)
+        if (enteredPassword === adminPassword) {
+            window.location.href = "admin-panel.php";
+        } else {
+            alert("Wrong password entered");
+        }
+    })
 })
 
 let labels;
@@ -370,7 +381,6 @@ let data;
 let data2;
 let config;
 let chart;
-
 //bar chart for total numbers
 function appendBarChart(labelsArr, confirmedArr, deathsArr, recoveredArr) {
     labels = labelsArr;
@@ -399,8 +409,7 @@ function appendBarChart(labelsArr, confirmedArr, deathsArr, recoveredArr) {
     config = {
         type: "bar",
         data,
-        options: {
-        }
+        options: {}
     }
     myChart = new Chart(
         document.getElementById("myChart"),
@@ -468,12 +477,12 @@ function numWithCommas(num) {
 
 var loader = document.getElementById("loadingScreen");
 var mainWrapper = document.getElementById("mainWrapper");
-function showLoadingScreen() {
-    mainWrapper.classList.add("d-none");
-    setTimeout(() => {
-        loader.classList.remove("d-none");
-    }, 1100);
-}
+// function showLoadingScreen() {
+//     mainWrapper.classList.add("d-none");
+//     setTimeout(() => {
+//         loader.classList.remove("d-none");
+//     }, 1100);
+// }
 
 //hides the loading screen after the initial ajax call is done + 1 second
 function hideLoadingScreen() {
