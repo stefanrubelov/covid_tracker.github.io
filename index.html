@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+      integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+      crossorigin="anonymous"
+    />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css" />
+
+    <!-- Font Awesome -->
+    <script
+      src="https://kit.fontawesome.com/b801844dc1.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <!--Datatables-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css"
+    />
+    <title>Brainster Covid Tracker</title>
+  </head>
+
+  <body class="bg-light">
+    <div
+      class="d-flex justify-content-center align-items-center"
+      id="loadingScreen"
+    >
+      <div
+        class="spinner-border text-success"
+        style="width: 3rem; height: 3rem"
+        role="status"
+      >
+        <span class="visually-hidden"></span>
+      </div>
+    </div>
+    <div class="d-none" id="mainWrapper">
+      <nav
+        class="
+          navbar navbar-expand-lg navbar-light
+          bg-light
+          border-bottom border-white
+          m-0
+          p-0
+        "
+      >
+        <div
+          class="
+            d-flex
+            justify-content-between
+            align-items-center
+            w-100
+            m-0
+            mx-4
+            p-0
+          "
+        >
+          <a class="navbar-brand" href="#">Brainster</a>
+          <span class="display-4">Covid Tracker</span>
+          <a href="admin-panel.php" class="btn btn-primary">Sync Data</a>
+        </div>
+      </nav>
+
+      <div
+        class="
+          container-fluid
+          m-0
+          p-0
+          w-100
+          d-flex
+          flex-column
+          justify-content-around
+          align-items-center
+        "
+      >
+        <div class="d-flex justify-content-center align-items-center mt-5 mb-0">
+          <button
+            type="button"
+            class="btn btn-primary mx-3 px-2 py-1"
+            data-time="total"
+            data-time-num="0"
+            id="btn-total"
+            onclick="location.href='#total-numbers-row';"
+          >
+            Total
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary mx-3 px-2 py-1"
+            data-type="total-filter-btn"
+            data-time="previousday"
+            id="btn-total-previous-day"
+            data-time-num="-1"
+            onclick="location.href='#total-numbers-row';"
+          >
+            Last Day
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary mx-3 px-2 py-1"
+            data-type="total-filter-btn"
+            data-time="previousmonth"
+            data-time-num="-31"
+            id="btn-total-previous-month"
+            onclick="location.href='#total-numbers-row';"
+          >
+            Last Month
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary mx-3 px-2 py-1"
+            data-type="total-filter-btn"
+            data-time="previousquarter"
+            data-time-num="-93"
+            id="btn-total-previous-quarter"
+            onclick="location.href='#total-numbers-row';"
+          >
+            Last Quarter
+          </button>
+        </div>
+        <div
+          class="
+            row
+            bg-light
+            m-0
+            pt-3
+            px-5
+            pb-5
+            d-flex
+            justify-content-center
+            align-items-center
+          "
+        >
+          <div
+            class="
+              row
+              d-flex
+              flex-row
+              justify-content-around
+              align-items-center
+              mx-auto
+              m-0
+              p-0
+              w-100
+            "
+            id="total-numbers-row"
+            onload="load()"
+          >
+            <div class="col-3 mx-auto">
+              <div
+                class="card d-flex justify-content-center align-items-center"
+                style="width: 18rem"
+              >
+                <div
+                  class="
+                    card-body
+                    d-flex
+                    justify-content-center
+                    align-items-center
+                  "
+                >
+                  <h5 class="card-title display-4" id="total-confirmed">0</h5>
+                </div>
+                <div
+                  class="card-footer w-100 text-center"
+                  id="total-confirmed-footer"
+                >
+                  Confirmed Last Day
+                </div>
+              </div>
+            </div>
+            <div class="col-3 mx-auto">
+              <div
+                class="card d-flex justify-content-center align-items-center"
+                style="width: 18rem"
+              >
+                <div
+                  class="
+                    card-body
+                    d-flex
+                    justify-content-center
+                    align-items-center
+                  "
+                >
+                  <h5
+                    class="card-title display-4 text-danger"
+                    id="total-deaths"
+                  >
+                    0
+                  </h5>
+                </div>
+                <div
+                  class="card-footer w-100 text-center"
+                  id="total-deaths-footer"
+                >
+                  Deaths Last Day
+                </div>
+              </div>
+            </div>
+            <div class="col-3 mx-auto">
+              <div
+                class="card d-flex justify-content-center align-items-center"
+                style="width: 18rem"
+              >
+                <div
+                  class="
+                    card-body
+                    d-flex
+                    justify-content-center
+                    align-items-center
+                  "
+                >
+                  <h5
+                    class="card-title display-4 text-success"
+                    id="total-recovered"
+                  >
+                    0
+                  </h5>
+                </div>
+                <div
+                  class="card-footer w-100 text-center"
+                  id="total-recovered-footer"
+                >
+                  Recovered Last Day
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mb-5">
+          <canvas id="myChart"></canvas>
+        </div>
+        <p
+          class="display-4 mx-auto my-4 mt-5 w-100 text-center"
+          id="casesTableHeading"
+          name="casesTableHeading"
+        >
+          Cases per country
+        </p>
+        <p id="unique-country-name" class="display-3 fw-bold"></p>
+        <div class="mt-2 mb-4" id="countries-chart">
+          <canvas id="myChart2"></canvas>
+        </div>
+        <div class="tableContainer w-100 mb-4">
+          <table
+            class="table table-bordered table-striped border-dark m-0 p-0"
+            width="100%"
+            id="mainTable"
+            name="mainTable"
+          >
+            <thead>
+              <tr>
+                <th id="country-column">Country</th>
+                <th id="confirmed-column">Confirmed</th>
+                <th id="new-confirmed-column">Confirmed Last Day</th>
+                <th id="deaths-column">Deaths</th>
+                <th id="new-deaths-column">Deaths Last Day</th>
+                <th id="recovered-column">Recovered</th>
+                <th id="new-recovered-column">Recovered Last Day</th>
+                <th id="active-column">Active</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      <footer class="text-center fw-bold py-3">
+        <p class="text-white p-0 m-0">
+          Made with <i class="fas fa-heart"></i> by Brainster Students
+        </p>
+        <p class="p-0 m-0">
+          Data from: <a href="https://covid19api.com/">covid19api.com</a>
+        </p>
+      </footer>
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.js"
+      integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+      integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+      integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      type="text/javascript"
+      charset="utf8"
+      src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"
+    ></script>
+    <!--Datatables CDN-->
+    <script
+      type="text/javascript"
+      charset="utf8"
+      src="https://cdn.datatables.net/fixedcolumns/3.3.2/js/dataTables.fixedColumns.min.js"
+    ></script>
+    <!--Datatables columns CDN-->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.3.2/chart.min.js"
+      integrity="sha512-VCHVc5miKoln972iJPvkQrUYYq7XpxXzvqNfiul1H4aZDwGBGC0lq373KNleaB2LpnC2a/iNfE5zoRYmB4TRDQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <!--Charts.js cdn-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>
